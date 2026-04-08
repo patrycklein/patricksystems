@@ -863,10 +863,10 @@
     document.getElementById('successState').classList.add('active');
     // Hook your email provider (ConvertKit, Mailchimp, etc.) here
     fetch('https://hook.eu1.make.com/3lafyr7hmy4owwfcd693u1rn3t9ewxpa', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email: email })
-    });
+  	method: 'POST',
+  	headers: {'Content-Type': 'application/json'},
+  	body: JSON.stringify({ email: email })
+	});
   }
 
   // Enter key
