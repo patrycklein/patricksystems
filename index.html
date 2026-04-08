@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patrick Systems — Operator Infrastructure Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #fafaf8;
+      --paper: #f5f3ef;
+      --paper-dark: #edeae4;
+      --rule: #dedad4;
+      --rule-dark: #c4bfb8;
+      --ink: #0e0d0b;
+      --ink-mid: #3d3a35;
+      --ink-dim: #7a7670;
+      --ink-faint: #b0ada6;
+      --blue: #1a3a5c;
+      --blue-pale: rgba(26,58,92,0.06);
+      --serif: 'Playfair Display', Georgia, serif;
+      --bask: 'Libre Baskerville', Georgia, serif;
+      --sans: 'Instrument Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── GLOBAL ─── */
+    .w { max-width: 1440px; margin: 0 auto; }
+    .rule-line { height: 1px; background: var(--rule); }
+    .rule-dark { background: var(--rule-dark); }
+    .rule-ink { background: var(--ink); height: 2px; }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+
+    .section-bar {
+      padding: 18px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+    }
+    .section-bar-left { display: flex; align-items: center; gap: 20px; }
+    .section-ref { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); font-family: var(--sans); }
+    .section-title-bar { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      transition: box-shadow 0.3s;
+    }
+    nav.elevated { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+    .nav-inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: 0 48px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: baseline; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-brand-name {
+      font-family: var(--serif);
+      font-size: 16px; font-weight: 700;
+      color: var(--ink);
+    }
+    .nav-brand-sep { width: 1px; height: 12px; background: var(--rule-dark); }
+    .nav-brand-sub { font-size: 9px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-dim); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 12px; color: var(--ink-mid); text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .nav-free {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+      color: var(--ink-mid); text-decoration: none;
+      border: 1px solid var(--rule-dark); padding: 8px 18px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-free:hover { border-color: var(--ink); color: var(--ink); }
+    .nav-cta {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--white); background: var(--ink); text-decoration: none;
+      padding: 9px 20px; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--blue); }
+
+    /* ─── HERO ─── */
+    .hero { padding-top: 60px; }
+    .hero-meta {
+      padding: 13px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+      background: var(--paper);
+    }
+    .hero-meta-left { display: flex; align-items: center; gap: 28px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      min-height: calc(100vh - 100px);
+    }
+
+    .hero-main {
+      padding: 80px 80px 80px 48px;
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+
+    .hero-kicker {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 52px;
+    }
+    .hero-kicker-line { width: 28px; height: 1px; background: var(--ink); }
+    .hero-kicker-text { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mid); }
+
+    h1.hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(54px, 6.8vw, 100px);
+      font-weight: 400;
+      line-height: 0.97;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 0;
+    }
+    h1.hero-headline em { font-style: italic; }
+
+    .hero-lower {
+      margin-top: 72px;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+    .hero-descriptor {
+      font-size: 15px; color: var(--ink-mid); line-height: 1.8;
+    }
+    .hero-descriptor strong { font-weight: 500; color: var(--ink); }
+
+    .hero-free-entry {
+      background: var(--paper);
+      border: 1px solid var(--rule-dark);
+      padding: 28px 28px 24px;
+      position: relative;
+    }
+    .hero-free-entry::before {
+      content: 'FREE';
+      position: absolute; top: -1px; right: 24px;
+      background: var(--ink); color: var(--white);
+      font-size: 8px; font-weight: 700; letter-spacing: 0.2em;
+      padding: 4px 10px;
+    }
+    .hero-free-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 8px; }
+    .hero-free-title { font-family: var(--serif); font-size: 17px; font-weight: 500; margin-bottom: 12px; line-height: 1.25; }
+    .hero-free-desc { font-size: 12px; color: var(--ink-dim); line-height: 1.6; margin-bottom: 20px; }
+    .hero-free-btn {
+      display: block; width: 100%;
+      background: var(--ink); color: var(--white);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; text-align: center;
+      padding: 13px; transition: background 0.2s;
+    }
+    .hero-free-btn:hover { background: var(--blue); }
+
+    /* Sidebar */
+    .hero-sidebar {
+      background: var(--paper);
+      display: flex; flex-direction: column;
+    }
+    .sidebar-top { padding: 40px 36px; flex: 1; }
+    .sidebar-stats { display: flex; flex-direction: column; }
+    .sidebar-stat {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .sidebar-stat:first-child { border-top: 1px solid var(--rule); }
+    .sidebar-stat-label { font-size: 11px; letter-spacing: 0.08em; color: var(--ink-dim); }
+    .sidebar-stat-value { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink); }
+    .sidebar-quote {
+      padding: 32px 36px;
+      border-top: 1px solid var(--rule-dark);
+      background: var(--paper-dark);
+    }
+    .sidebar-quote-text {
+      font-family: var(--bask);
+      font-size: 14px; font-style: italic;
+      color: var(--ink-mid); line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .sidebar-quote-attr { font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+
+    /* ─── LEAD MAGNET STRIP ─── */
+    .lead-strip { background: var(--ink); }
+    .lead-strip-inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      min-height: 100px;
+      gap: 48px;
+    }
+    .lead-strip-left {
+      display: flex; align-items: center; gap: 20px;
+      padding: 32px 0;
+    }
+    .lead-strip-badge {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 22px; color: rgba(255,255,255,0.9);
+    }
+    .lead-strip-text {}
+    .lead-strip-label { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+    .lead-strip-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--white); line-height: 1.2; }
+
+    .lead-strip-center {
+      font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7;
+      border-left: 1px solid rgba(255,255,255,0.1);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      padding: 32px 40px;
+      align-self: stretch;
+      display: flex; align-items: center;
+    }
+    .lead-strip-center strong { color: rgba(255,255,255,0.85); font-weight: 400; }
+
+    .lead-strip-right { padding: 32px 0; }
+    .lead-strip-cta {
+      display: block;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; text-align: center;
+      padding: 14px 28px; transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 10px;
+    }
+    .lead-strip-cta:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
+    .lead-strip-note { font-size: 10px; color: rgba(255,255,255,0.3); text-align: center; letter-spacing: 0.06em; }
+
+    /* ─── PROBLEM ─── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+    }
+    .problem-left {
+      padding: 80px 60px 80px 48px;
+      border-right: 1px solid var(--rule);
+      background: var(--paper);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .problem-pull {
+      font-family: var(--serif);
+      font-size: clamp(26px, 2.8vw, 40px);
+      font-weight: 400; line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+    }
+    .problem-pull em { font-style: italic; }
+    .problem-context {
+      font-size: 13px; color: var(--ink-dim);
+      line-height: 1.75;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .problem-right { padding: 80px 48px 80px 64px; }
+    .problem-items { display: flex; flex-direction: column; }
+    .problem-item {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 28px; align-items: start;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .problem-item:first-child { border-top: 1px solid var(--rule); }
+    .pi-num { font-family: var(--bask); font-size: 13px; font-style: italic; color: var(--ink-faint); padding-top: 3px; }
+    .pi-title { font-family: var(--serif); font-size: 19px; font-weight: 400; margin-bottom: 10px; line-height: 1.2; }
+    .pi-text { font-size: 13px; color: var(--ink-mid); line-height: 1.75; }
+    .pi-text strong { font-weight: 500; color: var(--ink); }
+
+    /* ─── MODEL ─── */
+    .model-section { background: var(--white); }
+    .model-body { padding: 80px 48px; }
+    .model-intro {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      padding-bottom: 64px; border-bottom: 1px solid var(--rule); margin-bottom: 56px;
+    }
+    .model-h { font-family: var(--serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; line-height: 1.1; }
+    .model-h em { font-style: italic; }
+    .model-body-text { font-size: 14px; color: var(--ink-mid); line-height: 1.85; align-self: end; }
+    .model-body-text strong { font-weight: 500; color: var(--ink); }
+
+    .table-head {
+      display: grid; grid-template-columns: 72px 240px 1fr 140px;
+      padding: 10px 0; border-bottom: 2px solid var(--ink);
+    }
+    .th { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); }
+    .th:last-child { text-align: right; }
+
+    .layer-row {
+      display: grid; grid-template-columns: 72px 240px 1fr 140px;
+      padding: 34px 0; border-bottom: 1px solid var(--rule);
+      align-items: start; transition: background 0.2s;
+      cursor: default;
+    }
+    .layer-row:hover { background: var(--blue-pale); margin: 0 -48px; padding: 34px 48px; }
+    .lr-num { font-family: var(--bask); font-size: 12px; font-style: italic; color: var(--ink-faint); padding-top: 4px; }
+    .lr-name { font-family: var(--serif); font-size: 18px; font-weight: 400; line-height: 1.2; padding-right: 32px; }
+    .lr-desc { font-size: 13px; color: var(--ink-mid); line-height: 1.7; padding-right: 32px; }
+    .lr-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); text-align: right; padding-top: 5px; }
+
+    /* ─── SYSTEM / OIS ─── */
+    .ois-section { background: var(--paper); }
+    .ois-body { padding: 80px 48px; }
+
+    .ois-intro {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      padding-bottom: 72px; border-bottom: 1px solid var(--rule); margin-bottom: 64px;
+    }
+    .ois-h { font-family: var(--serif); font-size: clamp(32px, 3.8vw, 56px); font-weight: 400; line-height: 1.05; }
+    .ois-h em { font-style: italic; }
+
+    .ois-right {}
+    .ois-premise {
+      font-size: 20px; font-family: var(--bask); font-style: italic;
+      color: var(--ink-mid); line-height: 1.5; margin-bottom: 24px;
+    }
+    .ois-premise strong { font-style: normal; font-weight: 700; color: var(--ink); }
+    .ois-explanation {
+      font-size: 14px; color: var(--ink-mid); line-height: 1.85;
+    }
+    .ois-explanation strong { font-weight: 500; color: var(--ink); }
+
+    /* What you actually get */
+    .ois-get-header {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink-dim); padding-bottom: 18px; border-bottom: 2px solid var(--ink);
+      margin-bottom: 0;
+    }
+    .ois-get-row {
+      display: grid; grid-template-columns: 100px 1fr 200px 120px;
+      padding: 36px 0; border-bottom: 1px solid var(--rule);
+      align-items: start; gap: 0;
+      transition: background 0.2s;
+    }
+    .ois-get-row:hover { background: rgba(14,13,11,0.03); margin: 0 -48px; padding: 36px 48px; }
+    .ogr-ref { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); padding-top: 4px; }
+    .ogr-name { font-family: var(--serif); font-size: 18px; font-weight: 400; line-height: 1.2; padding-right: 40px; }
+    .ogr-role { font-size: 13px; color: var(--ink-mid); line-height: 1.7; padding-right: 32px; }
+    .ogr-type { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); text-align: right; padding-top: 4px; }
+
+    /* ─── PULL ─── */
+    .pull-section { background: var(--ink); }
+    .pull-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: grid; grid-template-columns: 280px 1fr 280px;
+      align-items: center; padding: 100px 48px; gap: 48px;
+    }
+    .pull-side { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.25); line-height: 1.8; }
+    .pull-side:last-child { text-align: right; }
+    .pull-q {
+      font-family: var(--serif); font-size: clamp(22px, 2.6vw, 36px);
+      font-weight: 400; font-style: italic;
+      color: var(--white); line-height: 1.35; text-align: center;
+    }
+    .pull-q strong { font-style: normal; font-weight: 700; }
+
+    /* ─── LEAD MAGNET SECTION ─── */
+    .magnet-section { background: var(--white); }
+    .magnet-body {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .magnet-left {
+      padding: 80px 64px 80px 48px;
+      border-right: 1px solid var(--rule);
+    }
+    .magnet-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
+    .magnet-eyebrow-line { width: 24px; height: 1px; background: var(--ink); }
+    .magnet-eyebrow-text { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); }
+
+    .magnet-h {
+      font-family: var(--serif);
+      font-size: clamp(30px, 3.2vw, 48px); font-weight: 400;
+      line-height: 1.1; margin-bottom: 28px;
+    }
+    .magnet-h em { font-style: italic; }
+
+    .magnet-body-text {
+      font-size: 14px; color: var(--ink-mid); line-height: 1.85; margin-bottom: 40px;
+    }
+    .magnet-body-text strong { font-weight: 500; color: var(--ink); }
+
+    .magnet-what {
+      display: flex; flex-direction: column;
+    }
+    .magnet-what-header {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink-dim); padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+    }
+    .magnet-what-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 0; border-bottom: 1px solid var(--rule);
+      font-size: 13px; color: var(--ink-mid); line-height: 1.6;
+    }
+    .magnet-what-item::before { content: '—'; color: var(--ink-faint); flex-shrink: 0; font-family: var(--bask); }
+    .magnet-what-item strong { color: var(--ink); font-weight: 500; }
+
+    .magnet-right {
+      background: var(--paper);
+      padding: 80px 48px 80px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .magnet-card {
+      background: var(--white);
+      border: 1px solid var(--rule-dark);
+      padding: 48px 40px;
+      position: relative;
+    }
+    .magnet-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--ink);
+    }
+    .magnet-card-label { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+    .magnet-card-title { font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.2; margin-bottom: 8px; }
+    .magnet-card-subtitle { font-size: 13px; color: var(--ink-dim); margin-bottom: 32px; line-height: 1.6; }
+
+    .email-form-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .email-input {
+      width: 100%; background: var(--paper);
+      border: 1px solid var(--rule-dark); outline: none;
+      padding: 14px 16px;
+      font-family: var(--sans); font-size: 13px; color: var(--ink);
+      transition: border-color 0.2s;
+    }
+    .email-input:focus { border-color: var(--ink); }
+    .email-input::placeholder { color: var(--ink-faint); }
+    .email-submit {
+      width: 100%; background: var(--ink); color: var(--white);
+      border: none; outline: none; cursor: pointer;
+      font-family: var(--sans); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 15px; transition: background 0.2s;
+    }
+    .email-submit:hover { background: var(--blue); }
+    .magnet-card-note { font-size: 11px; color: var(--ink-faint); text-align: center; line-height: 1.7; }
+
+    .magnet-bridge {
+      margin-top: 32px;
+      padding: 28px 32px;
+      background: var(--paper-dark);
+      border: 1px solid var(--rule);
+    }
+    .magnet-bridge-label { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 10px; }
+    .magnet-bridge-text { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+    .magnet-bridge-text strong { color: var(--ink); font-weight: 500; }
+
+    /* ─── ACCESS / PRICING ─── */
+    .access-section { background: var(--paper); }
+    .access-grid {
+      display: grid; grid-template-columns: 1fr 480px;
+    }
+    .access-left {
+      padding: 80px 64px 80px 48px;
+      border-right: 1px solid var(--rule);
+    }
+    .access-h {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 62px); font-weight: 400;
+      line-height: 1.0; letter-spacing: -0.02em;
+      margin-bottom: 36px;
+    }
+    .access-h em { font-style: italic; }
+
+    .access-premise {
+      font-size: 17px; font-family: var(--bask); font-style: italic;
+      color: var(--ink-mid); line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .access-premise strong { font-style: normal; color: var(--ink); }
+
+    .access-body-text {
+      font-size: 14px; color: var(--ink-mid); line-height: 1.85;
+      margin-bottom: 52px; max-width: 520px;
+    }
+    .access-body-text strong { font-weight: 500; color: var(--ink); }
+
+    .access-includes-head {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink-dim); padding-bottom: 14px; border-bottom: 1px solid var(--rule-dark);
+    }
+    .access-include-row {
+      display: grid; grid-template-columns: 1fr auto;
+      padding: 18px 0; border-bottom: 1px solid var(--rule);
+      align-items: baseline; gap: 20px;
+    }
+    .air-name { font-size: 14px; color: var(--ink-mid); }
+    .air-name strong { color: var(--ink); font-weight: 500; }
+    .air-status { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); white-space: nowrap; }
+
+    .access-right {
+      padding: 80px 48px;
+      display: flex; flex-direction: column;
+    }
+
+    .price-panel {
+      background: var(--ink);
+      padding: 48px 40px;
+      margin-bottom: 2px;
+      flex: 0;
+    }
+    .price-panel-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 28px; }
+    .price-num {
+      font-family: var(--serif);
+      font-size: 84px; font-weight: 400; line-height: 1;
+      letter-spacing: -0.03em; color: var(--white); margin-bottom: 6px;
+    }
+    .price-num sup { font-size: 34px; vertical-align: super; font-family: var(--sans); font-weight: 300; }
+    .price-terms { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; line-height: 1.8; margin-bottom: 36px; }
+
+    .price-items { display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px; margin-bottom: 36px; gap: 12px; }
+    .price-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+    .price-item-name { color: rgba(255,255,255,0.5); }
+    .price-item-val { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+
+    .price-cta {
+      display: block; width: 100%;
+      background: var(--white); color: var(--ink);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; text-align: center; padding: 18px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .price-cta:hover { background: rgba(255,255,255,0.88); }
+
+    .price-secondary {
+      background: var(--paper-dark);
+      border: 1px solid var(--rule);
+      padding: 32px 36px;
+      margin-bottom: 2px;
+    }
+    .ps-label { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 12px; }
+    .ps-items { display: flex; flex-direction: column; gap: 10px; }
+    .ps-item { display: flex; gap: 14px; font-size: 12px; color: var(--ink-mid); line-height: 1.6; }
+    .ps-item::before { content: '—'; color: var(--ink-faint); flex-shrink: 0; font-family: var(--bask); }
+
+    .price-free-link {
+      padding: 20px 0;
+      display: flex; justify-content: center;
+    }
+    .price-free-link a {
+      font-size: 11px; color: var(--ink-dim); text-decoration: none;
+      letter-spacing: 0.06em; border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
+    }
+    .price-free-link a:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ─── ABOUT ─── */
+    .about-section { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .about-left {
+      padding: 80px 64px 80px 48px;
+      border-right: 1px solid var(--rule);
+    }
+    .about-h { font-family: var(--serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; line-height: 1.1; margin-bottom: 36px; }
+    .about-h em { font-style: italic; }
+    .about-text { font-size: 14px; color: var(--ink-mid); line-height: 1.85; }
+    .about-text p + p { margin-top: 18px; }
+    .about-text strong { font-weight: 500; color: var(--ink); }
+    .about-right { padding: 80px 48px 80px 64px; }
+    .principles { display: flex; flex-direction: column; }
+    .principle { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 36px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+    .principle:first-child { border-top: 1px solid var(--rule); }
+    .principle-label { font-family: var(--serif); font-size: 15px; font-style: italic; color: var(--ink); line-height: 1.35; }
+    .principle-text { font-size: 13px; color: var(--ink-mid); line-height: 1.75; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--ink); }
+    .footer-inner { max-width: 1440px; margin: 0 auto; }
+    .footer-top {
+      padding: 64px 48px 56px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand-name { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--white); margin-bottom: 10px; }
+    .footer-brand-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.75; }
+    .footer-col-title { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
+    .footer-links-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links-list a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .footer-links-list a:hover { color: var(--white); }
+    .footer-access-btn {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white); border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 24px; text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    }
+    .footer-access-btn:hover { border-color: var(--white); background: rgba(255,255,255,0.04); }
+    .footer-bottom {
+      padding: 22px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; }
+
+    /* ─── ANIMATIONS ─── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1), transform 0.9s cubic-bezier(0.23,1,0.32,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+    .d5 { transition-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .nav-links { display: none; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-sidebar { border-top: 1px solid var(--rule); }
+      .hero-lower { grid-template-columns: 1fr; }
+      .lead-strip-inner { grid-template-columns: 1fr; padding: 40px 24px; }
+      .lead-strip-center { border: none; padding: 0; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .problem-left { border-right: none; border-bottom: 1px solid var(--rule); }
+      .model-intro { grid-template-columns: 1fr; gap: 32px; }
+      .table-head { grid-template-columns: 56px 1fr 1fr; }
+      .table-head .th:last-child { display: none; }
+      .layer-row { grid-template-columns: 56px 1fr 1fr; }
+      .lr-tag { display: none; }
+      .layer-row:hover { margin: 0; padding: 34px 0; }
+      .ois-intro { grid-template-columns: 1fr; gap: 32px; }
+      .ois-get-row { grid-template-columns: 80px 1fr 120px; }
+      .ois-get-row .ogr-role { display: none; }
+      .ois-get-row:hover { margin: 0; padding: 36px 0; }
+      .pull-inner { grid-template-columns: 1fr; text-align: center; gap: 24px; }
+      .pull-side { display: none; }
+      .magnet-body { grid-template-columns: 1fr; }
+      .magnet-left { border-right: none; border-bottom: 1px solid var(--rule); }
+      .access-grid { grid-template-columns: 1fr; }
+      .access-left { border-right: none; border-bottom: 1px solid var(--rule); }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-left { border-right: none; border-bottom: 1px solid var(--rule); }
+      .principle { grid-template-columns: 1fr; gap: 10px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .nav-inner, .section-bar, .hero-meta, .hero-main,
+      .hero-left, .hero-right, .problem-left, .problem-right,
+      .model-body, .ois-body, .magnet-left, .magnet-right,
+      .access-left, .access-right, .about-left, .about-right,
+      .footer-top, .footer-bottom { padding-left: 24px; padding-right: 24px; }
+      .section-bar { padding: 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="nav-brand-name">Patrick Systems</span>
+      <span class="nav-brand-sep"></span>
+      <span class="nav-brand-sub">Digital Income Infrastructure</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#model">The Model</a></li>
+      <li><a href="#system">The System</a></li>
+      <li><a href="#framework">Free Framework</a></li>
+      <li><a href="#access">Access</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#framework" class="nav-free">Download Free Framework</a>
+      <a href="#access" class="nav-cta">Get the System — $750</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="w">
+    <div class="hero-meta">
+      <div class="hero-meta-left">
+        <span class="section-ref">Operator Infrastructure Framework™</span>
+        <span class="section-ref" style="color:var(--rule-dark)">|</span>
+        <span class="section-ref">United States</span>
+      </div>
+      <span class="section-ref">patricksystems.com</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div>
+          <div class="hero-kicker">
+            <span class="hero-kicker-line"></span>
+            <span class="hero-kicker-text">A structural framework for operators</span>
+          </div>
+          <h1 class="hero-headline reveal">
+            Build Digital<br />
+            Income<br />
+            <em>Infrastructure.</em>
+          </h1>
+        </div>
+
+        <div class="hero-lower reveal d2">
+          <p class="hero-descriptor">
+            A complete operational system for founders and entrepreneurs ready to stop improvising revenue and start <strong>architecting income that runs independently</strong> of their daily effort.
+          </p>
+          <div class="hero-free-entry">
+            <p class="hero-free-label">Start here — no cost</p>
+            <p class="hero-free-title">Operator Infrastructure Map</p>
+            <p class="hero-free-desc">The foundational framework paper. Understand the model before you commit to the system.</p>
+            <a href="#framework" class="hero-free-btn">Download the Free Framework</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-sidebar reveal d1">
+        <div class="sidebar-top">
+          <div class="sidebar-stats">
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-label">Framework Layers</span>
+              <span class="sidebar-stat-value">Five</span>
+            </div>
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-label">System Components</span>
+              <span class="sidebar-stat-value">Four</span>
+            </div>
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-label">Free Entry Point</span>
+              <span class="sidebar-stat-value" style="font-size:18px;">The Map</span>
+            </div>
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-label">Full System</span>
+              <span class="sidebar-stat-value">$750</span>
+            </div>
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-label">Payment Structure</span>
+              <span class="sidebar-stat-value" style="font-size:17px;">One-time</span>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-quote">
+          <p class="sidebar-quote-text">"Operators do not manage revenue. They architect it. The difference is not philosophical — it is structural."</p>
+          <span class="sidebar-quote-attr">Patrick Systems — Operator Framework</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD STRIP -->
+<div class="lead-strip" id="framework-entry">
+  <div class="lead-strip-inner">
+    <div class="lead-strip-left">
+      <div class="lead-strip-badge">§</div>
+      <div class="lead-strip-text">
+        <p class="lead-strip-label">Free Framework Paper</p>
+        <p class="lead-strip-title">Operator Infrastructure Map</p>
+      </div>
+    </div>
+    <div class="lead-strip-center">
+      The foundational document of the entire system. <strong>Read the model before you invest in it.</strong> Understand the five layers, the logic, and the structural difference between tactics and infrastructure. Free. No credit card.
+    </div>
+    <div class="lead-strip-right">
+      <a href="#framework" class="lead-strip-cta">Get the Free Framework</a>
+      <p class="lead-strip-note">Enter your email. Instant delivery.</p>
+    </div>
+  </div>
+</div>
+
+<div class="rule-line w"></div>
+
+<!-- PROBLEM -->
+<div class="w" id="problem">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 01</span>
+      <span class="section-title-bar">The Problem</span>
+    </div>
+    <span class="section-ref">Why operators think differently</span>
+  </div>
+  <div class="problem-grid">
+    <div class="problem-left">
+      <h2 class="problem-pull reveal">
+        Most people try to<br />
+        make money online.<br /><br />
+        <em>Operators build<br />systems.</em>
+      </h2>
+      <p class="problem-context reveal d1">
+        The distinction is not a mindset shift. It is a structural one. One model produces revenue episodically — the other produces capital continuously. Same internet. Completely different architecture.
+      </p>
+    </div>
+    <div class="problem-right">
+      <div class="problem-items">
+        <div class="problem-item reveal">
+          <span class="pi-num">I.</span>
+          <div>
+            <h3 class="pi-title">The internet runs on tactics, not infrastructure</h3>
+            <p class="pi-text">Courses. Growth hacks. Viral content strategies. None of it is infrastructure. It produces noise, not capital — and it requires <strong>constant reinvention just to survive</strong>. The moment you stop pushing, it stops producing.</p>
+          </div>
+        </div>
+        <div class="problem-item reveal d1">
+          <span class="pi-num">II.</span>
+          <div>
+            <h3 class="pi-title">Without structure, you are always starting over</h3>
+            <p class="pi-text">No compounding. No leverage. The same effort, indefinitely. Because <strong>nothing was built to run</strong> — it was built to be managed. That is not a business model. That is a full-time job with a different name.</p>
+          </div>
+        </div>
+        <div class="problem-item reveal d2">
+          <span class="pi-num">III.</span>
+          <div>
+            <h3 class="pi-title">Operators think in systems, not in campaigns</h3>
+            <p class="pi-text">The operator model is different at the root. It designs income infrastructure — <strong>systems that produce capital repeatedly</strong>, with less friction at every iteration, because they were architected to do exactly that.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule-line w"></div>
+
+<!-- MODEL -->
+<div class="w model-section" id="model">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 02</span>
+      <span class="section-title-bar">The Model</span>
+    </div>
+    <span class="section-ref">Digital Income Infrastructure</span>
+  </div>
+  <div class="model-body">
+    <div class="model-intro">
+      <h2 class="model-h reveal">The Operator<br />Infrastructure<br /><em>Model</em></h2>
+      <p class="model-body-text reveal d1">Operators do not manage revenue. They architect it. The Operator Infrastructure Model organizes digital income into <strong>five structural layers</strong> — each one reinforcing the others, each one reducing friction as the system matures. Nothing is isolated. Everything is designed to compound.</p>
+    </div>
+    <div class="table-head">
+      <span class="th">Layer</span>
+      <span class="th">Component</span>
+      <span class="th">Function</span>
+      <span class="th" style="text-align:right;">Classification</span>
+    </div>
+    <div class="layer-row reveal"><span class="lr-num">L — 01</span><span class="lr-name">Income Engine</span><span class="lr-desc">The core mechanism that converts operator output into capital. Defined, repeatable, independent from any single channel or tactic.</span><span class="lr-tag">Foundation</span></div>
+    <div class="layer-row reveal d1"><span class="lr-num">L — 02</span><span class="lr-name">Capital Allocation</span><span class="lr-desc">The distribution logic for generated capital across layers. Where money flows determines whether the system compounds or stagnates.</span><span class="lr-tag">Structural</span></div>
+    <div class="layer-row reveal d2"><span class="lr-num">L — 03</span><span class="lr-name">Asset Engineering</span><span class="lr-desc">The construction of digital assets that produce independently from operator time. Not deliverables — assets with structural, compounding output.</span><span class="lr-tag">Leverage</span></div>
+    <div class="layer-row reveal d3"><span class="lr-num">L — 04</span><span class="lr-name">Infrastructure Layer</span><span class="lr-desc">Systems and operational architecture that reduce friction over time. The layer that allows the operator to scale without scaling proportionally.</span><span class="lr-tag">Operational</span></div>
+    <div class="layer-row reveal d4"><span class="lr-num">L — 05</span><span class="lr-name">Compounding Architecture</span><span class="lr-desc">The structural logic that connects all layers. Where the system begins to reinforce itself without constant operator intervention.</span><span class="lr-tag">Systemic</span></div>
+  </div>
+</div>
+
+<div class="rule-line w"></div>
+
+<!-- SYSTEM / OIS -->
+<div class="w ois-section" id="system">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 03</span>
+      <span class="section-title-bar">The System</span>
+    </div>
+    <span class="section-ref">Operator Infrastructure System™</span>
+  </div>
+  <div class="ois-body">
+    <div class="ois-intro">
+      <h2 class="ois-h reveal">The Operator<br />Infrastructure<br /><em>System™</em></h2>
+      <div class="ois-right">
+        <p class="ois-premise reveal d1">You are not buying documents.<br /><strong>You are acquiring the operating system of an operator.</strong></p>
+        <p class="ois-explanation reveal d2">The Operator Infrastructure System is the complete implementation layer of the framework. It moves you from understanding the model to <strong>operating inside it</strong> — with the diagnostic tools, execution instruments, and capital allocation frameworks that make the five layers functional. This is the infrastructure behind the infrastructure. The difference between knowing and deploying.</p>
+      </div>
+    </div>
+
+    <p class="ois-get-header">What the System contains</p>
+    <div class="ois-get-row reveal">
+      <span class="ogr-ref">Entry Point</span>
+      <span class="ogr-name">Operator Infrastructure Map</span>
+      <span class="ogr-role">The foundational framework paper. Introduces the model, establishes the five layers, and defines the structural logic behind digital income infrastructure. Available free.</span>
+      <span class="ogr-type">Free</span>
+    </div>
+    <div class="ois-get-row reveal d1">
+      <span class="ogr-ref">Diagnostic</span>
+      <span class="ogr-name">Infrastructure Diagnostic</span>
+      <span class="ogr-role">Evaluates operator readiness across all five layers. Identifies structural gaps before you build into them. The instrument that prevents expensive wrong moves.</span>
+      <span class="ogr-type">Full System</span>
+    </div>
+    <div class="ois-get-row reveal d2">
+      <span class="ogr-ref">Execution</span>
+      <span class="ogr-name">Diagnostic Submission Layer</span>
+      <span class="ogr-role">Translates diagnostic results into a structured execution sequence. The operational bridge between knowing where you are and knowing what to build next.</span>
+      <span class="ogr-type">Full System</span>
+    </div>
+    <div class="ois-get-row reveal d3">
+      <span class="ogr-ref">Allocation</span>
+      <span class="ogr-name">Capital Structuring Framework</span>
+      <span class="ogr-role">Organizes time, skill, and financial capital across the five infrastructure layers. Where strategy becomes allocatable, trackable, executable resources.</span>
+      <span class="ogr-type">Full System</span>
+    </div>
+  </div>
+</div>
+
+<!-- PULL -->
+<div class="pull-section">
+  <div class="pull-inner">
+    <span class="pull-side">Operator Infrastructure<br />Framework™<br />Core Principle</span>
+    <blockquote class="pull-q reveal">
+      "Most operators don't have an income problem.<br />
+      They have a <strong>structure problem.</strong><br />
+      The system doesn't exist yet —<br />so nothing compounds."
+    </blockquote>
+    <span class="pull-side">Patrick Systems<br />Digital Income<br />Infrastructure</span>
+  </div>
+</div>
+
+<!-- FREE FRAMEWORK / LEAD MAGNET -->
+<div class="w magnet-section" id="framework">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 04</span>
+      <span class="section-title-bar">Free Framework</span>
+    </div>
+    <span class="section-ref">Operator Infrastructure Map — No cost. No commitment.</span>
+  </div>
+  <div class="magnet-body">
+    <div class="magnet-left">
+      <div class="magnet-eyebrow">
+        <span class="magnet-eyebrow-line"></span>
+        <span class="magnet-eyebrow-text">Start with the foundation</span>
+      </div>
+      <h2 class="magnet-h reveal">
+        Read the model<br />
+        <em>before you invest<br />in the system.</em>
+      </h2>
+      <p class="magnet-body-text reveal d1">
+        The Operator Infrastructure Map is the foundational framework paper — <strong>free, no credit card required</strong>. It introduces the five-layer model, the structural logic behind digital income infrastructure, and the precise difference between operators and everyone else. If the model resonates, the system is the next step. If it doesn't, you've lost nothing.
+      </p>
+      <div class="magnet-what reveal d2">
+        <p class="magnet-what-header">What the free framework covers</p>
+        <div class="magnet-what-item"><span><strong>The five-layer model</strong> — Income Engine, Capital Allocation, Asset Engineering, Infrastructure Layer, Compounding Architecture</span></div>
+        <div class="magnet-what-item"><span><strong>The operator distinction</strong> — What structurally separates an operator from someone executing tactics</span></div>
+        <div class="magnet-what-item"><span><strong>The compounding logic</strong> — Why infrastructure produces capital when tactics produce noise</span></div>
+        <div class="magnet-what-item"><span><strong>The system preview</strong> — How the full Operator Infrastructure System implements the model</span></div>
+      </div>
+    </div>
+
+    <div class="magnet-right">
+      <div class="magnet-card reveal d1">
+        <p class="magnet-card-label">Free Download — Operator Infrastructure Map</p>
+        <h3 class="magnet-card-title">The Operator Infrastructure Framework Paper</h3>
+        <p class="magnet-card-subtitle">Enter your email. Receive the framework immediately. No spam, no sequences, no obligation.</p>
+        <div class="email-form-wrap">
+          <input type="email" class="email-input" placeholder="Your email address" />
+          <button class="email-submit">Download the Free Framework</button>
+        </div>
+        <p class="magnet-card-note">Delivered instantly. No credit card.<br />No obligation. Unsubscribe anytime.</p>
+      </div>
+
+      <div class="magnet-bridge reveal d2">
+        <p class="magnet-bridge-label">After the framework</p>
+        <p class="magnet-bridge-text">Operators who read the Map and recognize their own structural gaps typically move to the full system. The <strong>Operator Infrastructure System™ at $750</strong> is the complete implementation layer — the diagnostic tools, execution instruments, and allocation frameworks that activate the model.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule-line w"></div>
+
+<!-- ACCESS -->
+<div class="w access-section" id="access">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 05</span>
+      <span class="section-title-bar">Access</span>
+    </div>
+    <span class="section-ref">Operator Infrastructure System™ — $750 one-time</span>
+  </div>
+  <div class="access-grid">
+    <div class="access-left">
+      <h2 class="access-h reveal">
+        One decision.<br />
+        <em>Full operating<br />system.</em>
+      </h2>
+      <p class="access-premise reveal d1">
+        The $750 is not the price of documents.<br />
+        <strong>It is the price of having an operating system that most operators spend years failing to build on their own.</strong>
+      </p>
+      <p class="access-body-text reveal d2">
+        The Operator Infrastructure System is the complete implementation layer of the framework — the diagnostic instruments, the execution sequencing, and the capital allocation frameworks that move you from understanding the model to operating inside it. No course. No community. No coaching. <strong>Pure operational infrastructure, delivered once, owned forever.</strong>
+      </p>
+
+      <p class="access-includes-head">System components</p>
+      <div class="access-include-row reveal">
+        <span class="air-name"><strong>Operator Infrastructure Map</strong> — Foundational framework paper (also available free)</span>
+        <span class="air-status">Included</span>
+      </div>
+      <div class="access-include-row reveal d1">
+        <span class="air-name"><strong>Infrastructure Diagnostic</strong> — Five-layer structural gap analysis</span>
+        <span class="air-status">Included</span>
+      </div>
+      <div class="access-include-row reveal d2">
+        <span class="air-name"><strong>Diagnostic Submission Layer</strong> — Execution sequencing instrument</span>
+        <span class="air-status">Included</span>
+      </div>
+      <div class="access-include-row reveal d3">
+        <span class="air-name"><strong>Capital Structuring Framework</strong> — Allocation across all five layers</span>
+        <span class="air-status">Included</span>
+      </div>
+      <div class="access-include-row reveal d4">
+        <span class="air-name"><strong>Lifetime access</strong> — No subscriptions. No renewals. No conditions.</span>
+        <span class="air-status">Forever</span>
+      </div>
+    </div>
+
+    <div class="access-right">
+      <div class="price-panel reveal">
+        <p class="price-panel-label">Operator Infrastructure System™ — Full Access</p>
+        <div class="price-num"><sup>$</sup>750</div>
+        <p class="price-terms">One-time. No subscriptions.<br />No renewals. Immediate access.</p>
+        <div class="price-items">
+          <div class="price-item"><span class="price-item-name">Infrastructure Diagnostic</span><span class="price-item-val">Included</span></div>
+          <div class="price-item"><span class="price-item-name">Execution Sequencing</span><span class="price-item-val">Included</span></div>
+          <div class="price-item"><span class="price-item-name">Capital Allocation Framework</span><span class="price-item-val">Included</span></div>
+          <div class="price-item"><span class="price-item-name">Lifetime Access</span><span class="price-item-val">Forever</span></div>
+        </div>
+        <a href="https://patricksystems.com/framework-access" class="price-cta">Access the Operator Infrastructure System</a>
+      </div>
+
+      <div class="price-secondary reveal d1">
+        <p class="ps-label">This system is not for everyone</p>
+        <div class="ps-items">
+          <div class="ps-item">Built for founders and executives who already think in systems — not beginners looking for a shortcut.</div>
+          <div class="ps-item">Requires no ongoing platform, tool, or subscription to implement. The system is self-contained.</div>
+          <div class="ps-item">Not sure yet? <a href="#framework" style="color:var(--ink); text-decoration:underline;">Download the free framework first.</a></div>
+        </div>
+      </div>
+
+      <div class="price-free-link reveal d2">
+        <a href="#framework">Not ready? Start with the free Operator Infrastructure Map →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule-line w"></div>
+
+<!-- ABOUT -->
+<div class="w about-section" id="about">
+  <div class="section-bar">
+    <div class="section-bar-left">
+      <span class="section-ref">§ 06</span>
+      <span class="section-title-bar">About</span>
+    </div>
+    <span class="section-ref">Patrick Systems</span>
+  </div>
+  <div class="about-grid">
+    <div class="about-left">
+      <h2 class="about-h reveal">Patrick Systems.<br /><em>Digital Income<br />Infrastructure.</em></h2>
+      <div class="about-text reveal d1">
+        <p>Patrick Systems is an independent framework for designing digital income infrastructure. Not a course platform. Not a coaching business. Not a community. A structural model built by an operator — for operators who have outgrown tactics and need architecture.</p>
+        <p>The goal is precise: structure capital, assets, and operational systems into frameworks that <strong>reinforce each other over time</strong>. With less friction at every iteration. Without constant management by the operator.</p>
+        <p>The framework emerged from years of building across multiple business contexts — technical, commercial, and operational. It is practical because it had to be. <strong>Operators do not have time for theory.</strong> They need structure that works independently of their presence in it.</p>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="principles">
+        <div class="principle reveal"><span class="principle-label">No courses.<br />No hacks.</span><p class="principle-text">Structural frameworks for long-term capital production. The methodology is architectural — not motivational, not episodic, not dependent on any platform's algorithm.</p></div>
+        <div class="principle reveal d1"><span class="principle-label">Built for<br />operators.</span><p class="principle-text">For founders and executives who think in systems — in infrastructure, allocation, and compounding logic. Not in posts, funnels, or follower counts.</p></div>
+        <div class="principle reveal d2"><span class="principle-label">Infrastructure<br />that compounds.</span><p class="principle-text">Every layer is designed to reinforce the others. The system does not plateau. It strengthens as it runs — because it was built to do exactly that.</p></div>
+        <div class="principle reveal d3"><span class="principle-label">One payment.<br />No dependencies.</span><p class="principle-text">No subscription model. No ongoing fees. No platform lock-in. You build the system once. It operates independently of any external service or provider.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand-name">Patrick Systems</p>
+        <p class="footer-brand-desc">Digital Income Infrastructure.<br />An independent operator framework.<br />United States — Est. 2025.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Framework</p>
+        <ul class="footer-links-list">
+          <li><a href="#model">The Model</a></li>
+          <li><a href="#system">The System</a></li>
+          <li><a href="#framework">Free Framework Paper</a></li>
+          <li><a href="#access">Access — $750</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Access</p>
+        <a href="#access" class="footer-access-btn">Get the System — $750</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Patrick Systems — Digital Income Infrastructure</span>
+      <span class="footer-copy">Operator Infrastructure Framework™ — All rights reserved</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav elevation
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('elevated', window.scrollY > 40));
+  // Reveal
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
