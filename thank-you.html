@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to the System — Patrick Systems</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:     #0c0b09;
+      --bg-2:   #111009;
+      --bg-3:   #1a1916;
+      --bg-4:   #222019;
+      --rule:   rgba(255,255,255,0.07);
+      --rule-2: rgba(255,255,255,0.12);
+      --white:  #fafaf8;
+      --dim:    rgba(255,255,255,0.45);
+      --dimmer: rgba(255,255,255,0.22);
+      --faint:  rgba(255,255,255,0.08);
+      --paper:  #f4f1ec;
+      --ink:    #0c0b09;
+      --accent: #c8b89a;
+
+      --serif: 'Playfair Display', Georgia, serif;
+      --bask:  'Libre Baskerville', Georgia, serif;
+      --sans:  'Instrument Sans', 'Helvetica Neue', sans-serif;
+      --ease:  cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(12,11,9,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: 0 56px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 26px; height: 26px;
+      border: 1px solid var(--rule-2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 12px; color: var(--white);
+    }
+    .nav-logo-text {
+      font-family: var(--serif); font-size: 14px;
+      font-weight: 400; color: var(--dim);
+    }
+    .nav-ref {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--dimmer);
+    }
+
+    /* ─── CONFIRMATION BAR ─── */
+    .confirm-bar {
+      position: fixed; top: 56px; left: 0; right: 0; z-index: 99;
+      background: rgba(200,184,154,0.08);
+      border-bottom: 1px solid rgba(200,184,154,0.15);
+      padding: 10px 56px;
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+      animation: slideDown 0.8s var(--ease) 0.5s both;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .confirm-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .confirm-text {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding-top: calc(56px + 37px); /* nav + confirm bar */
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    .hero-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+    }
+
+    .hero-left {
+      padding: 100px 80px 100px 56px;
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+
+    .hero-kicker {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 60px;
+      animation: fadeUp 0.9s var(--ease) 0.3s both;
+    }
+    .kicker-dash { width: 32px; height: 1px; background: var(--accent); }
+    .kicker-text {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(52px, 6.5vw, 96px);
+      font-weight: 400; line-height: 0.95;
+      letter-spacing: -0.03em; color: var(--white);
+      animation: fadeUp 1.1s var(--ease) 0.45s both;
+    }
+    h1 em { font-style: italic; }
+
+    .hero-bottom {
+      margin-top: 80px; padding-top: 40px;
+      border-top: 1px solid var(--rule);
+      animation: fadeUp 1s var(--ease) 0.65s both;
+    }
+    .hero-bottom-text {
+      font-family: var(--bask); font-style: italic;
+      font-size: 15px; color: var(--dim); line-height: 1.85;
+      max-width: 520px;
+    }
+    .hero-bottom-text strong { font-style: normal; color: var(--white); font-weight: 700; }
+
+    /* Sidebar */
+    .hero-right {
+      background: var(--bg-2);
+      display: flex; flex-direction: column;
+      animation: fadeUp 1s var(--ease) 0.3s both;
+    }
+
+    .receipt {
+      flex: 1; padding: 56px 40px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .receipt-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--dimmer); margin-bottom: 28px;
+    }
+    .receipt-card {
+      background: var(--bg-3); border: 1px solid var(--rule-2);
+      padding: 32px; position: relative; margin-bottom: 24px;
+    }
+    .receipt-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: var(--accent); opacity: 0.6;
+    }
+    .receipt-product {
+      font-family: var(--serif); font-size: 15px; font-weight: 500;
+      color: var(--white); margin-bottom: 4px;
+    }
+    .receipt-sub {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--dimmer); margin-bottom: 28px;
+    }
+    .receipt-lines { display: flex; flex-direction: column; }
+    .receipt-line {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--faint);
+      font-size: 12px;
+    }
+    .receipt-line:last-child { border-bottom: none; }
+    .rl-name { color: var(--dim); }
+    .rl-val {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(200,184,154,0.6);
+    }
+    .receipt-total {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-top: 20px; margin-top: 4px;
+      border-top: 1px solid var(--rule-2);
+    }
+    .rt-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--dimmer);
+    }
+    .rt-amount {
+      font-family: var(--serif); font-size: 32px; font-weight: 400;
+      color: var(--white); letter-spacing: -0.02em;
+    }
+    .rt-amount sup { font-size: 16px; vertical-align: super; font-family: var(--sans); font-weight: 300; }
+
+    .receipt-note {
+      font-size: 11px; color: var(--dimmer); line-height: 1.7;
+    }
+
+    /* Next step */
+    .hero-right-next {
+      padding: 36px 40px;
+      background: var(--bg-4);
+    }
+    .next-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--dimmer); margin-bottom: 14px;
+    }
+    .next-title {
+      font-family: var(--serif); font-size: 15px;
+      color: var(--white); line-height: 1.35; margin-bottom: 8px;
+    }
+    .next-sub {
+      font-size: 12px; color: var(--dimmer); line-height: 1.65;
+    }
+    .next-sub strong { color: var(--accent); font-weight: 500; }
+
+    /* ─── PROTOCOL SECTION ─── */
+    .protocol-section { border-top: 1px solid var(--rule); }
+    .protocol-header {
+      max-width: 1440px; margin: 0 auto;
+      padding: 16px 56px; border-bottom: 1px solid var(--rule);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ph-left { display: flex; align-items: center; gap: 20px; }
+    .sec-ref { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); }
+    .sec-title { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); }
+
+    .protocol-inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: 96px 56px;
+    }
+    .protocol-intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 96px; padding-bottom: 72px;
+      border-bottom: 1px solid var(--rule); margin-bottom: 64px;
+    }
+    .protocol-h {
+      font-family: var(--serif);
+      font-size: clamp(34px, 3.8vw, 54px);
+      font-weight: 400; line-height: 1.08;
+      letter-spacing: -0.02em; color: var(--white);
+    }
+    .protocol-h em { font-style: italic; }
+    .protocol-body {
+      font-size: 14px; color: var(--dim); line-height: 1.9;
+      align-self: end;
+    }
+    .protocol-body strong { color: var(--white); font-weight: 500; }
+
+    /* Steps */
+    .steps { display: flex; flex-direction: column; }
+    .step {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 40px; padding: 44px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .step:first-child { border-top: 1px solid var(--rule); }
+    .step-num-wrap {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+    }
+    .step-num {
+      width: 44px; height: 44px;
+      border: 1px solid var(--rule-2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 18px; font-weight: 400;
+      color: var(--white);
+    }
+    .step-time {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); opacity: 0.6;
+      white-space: nowrap;
+    }
+    .step-content {}
+    .step-title {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: var(--white); margin-bottom: 10px; line-height: 1.2;
+    }
+    .step-title em { font-style: italic; }
+    .step-body {
+      font-size: 13px; color: var(--dim); line-height: 1.8; max-width: 600px;
+    }
+    .step-body strong { color: var(--white); font-weight: 500; }
+    .step-law {
+      margin-top: 16px; padding: 14px 18px;
+      background: var(--bg-3); border-left: 2px solid rgba(200,184,154,0.3);
+      font-family: var(--bask); font-style: italic;
+      font-size: 12px; color: var(--dimmer); line-height: 1.6;
+    }
+
+    /* ─── CLOSING STATEMENT ─── */
+    .closing {
+      background: var(--bg-2);
+      border-top: 1px solid var(--rule);
+      padding: 120px 56px;
+    }
+    .closing-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: grid; grid-template-columns: 200px 1fr 200px;
+      gap: 64px; align-items: center;
+    }
+    .closing-side {
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.15); line-height: 1.9;
+    }
+    .closing-side:last-child { text-align: right; }
+    .closing-q {
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.8vw, 40px);
+      font-weight: 400; font-style: italic;
+      color: var(--white); line-height: 1.3; text-align: center;
+    }
+    .closing-q strong { font-style: normal; font-weight: 700; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--rule);
+    }
+    .footer-inner {
+      max-width: 1440px; margin: 0 auto; padding: 36px 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-brand { font-family: var(--serif); font-size: 14px; color: var(--dimmer); }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 12px; color: var(--dimmer); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 10px; color: var(--dimmer); letter-spacing: 0.08em; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+    .d5 { transition-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .nav-inner { padding: 0 24px; }
+      .confirm-bar { padding: 10px 24px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid var(--rule); }
+      .hero-right { border-top: none; }
+      .receipt { padding: 40px 24px; }
+      .hero-right-next { padding: 32px 24px; }
+      .protocol-header { padding: 16px 24px; }
+      .protocol-inner { padding: 64px 24px; }
+      .protocol-intro { grid-template-columns: 1fr; gap: 36px; }
+      .step { grid-template-columns: 56px 1fr; gap: 24px; padding: 36px 0; }
+      .closing { padding: 80px 24px; }
+      .closing-inner { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+      .closing-side { display: none; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; padding: 28px 24px; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://patricksystems.com" class="nav-logo">
+      <div class="nav-logo-mark">P</div>
+      <span class="nav-logo-text">Patrick Systems</span>
+    </a>
+    <span class="nav-ref">Operator Infrastructure System™</span>
+  </div>
+</nav>
+
+<!-- CONFIRMATION BAR -->
+<div class="confirm-bar">
+  <span class="confirm-dot"></span>
+  <span class="confirm-text">Payment confirmed — Access granted</span>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid w">
+
+    <div class="hero-left">
+      <div>
+        <div class="hero-kicker">
+          <span class="kicker-dash"></span>
+          <span class="kicker-text">You are inside the system</span>
+        </div>
+        <h1>
+          You made<br />
+          the structural<br />
+          <em>decision.</em>
+        </h1>
+      </div>
+      <div class="hero-bottom">
+        <p class="hero-bottom-text">
+          Most operators spend years building what you just acquired the blueprint for.
+          The work begins now — not with motivation, not with planning.
+          <br /><br />
+          <strong>With the First 72 Hours Protocol™.</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="receipt">
+        <p class="receipt-label">Order Confirmation</p>
+        <div class="receipt-card">
+          <p class="receipt-product">Operator Infrastructure System™</p>
+          <p class="receipt-sub">Patrick Systems — Full Access</p>
+          <div class="receipt-lines">
+            <div class="receipt-line">
+              <span class="rl-name">Strategic Manual (8 ch.)</span>
+              <span class="rl-val">Included</span>
+            </div>
+            <div class="receipt-line">
+              <span class="rl-name">Infrastructure Diagnostic™</span>
+              <span class="rl-val">Included</span>
+            </div>
+            <div class="receipt-line">
+              <span class="rl-name">First 72 Hours Protocol™</span>
+              <span class="rl-val">Included</span>
+            </div>
+            <div class="receipt-line">
+              <span class="rl-name">Operator Working Documents (×3)</span>
+              <span class="rl-val">Included</span>
+            </div>
+            <div class="receipt-line">
+              <span class="rl-name">Lifetime Access</span>
+              <span class="rl-val">Forever</span>
+            </div>
+          </div>
+          <div class="receipt-total">
+            <span class="rt-label">Total paid</span>
+            <span class="rt-amount"><sup>$</sup>750</span>
+          </div>
+        </div>
+        <p class="receipt-note">A confirmation email is on its way. Keep it — it is your permanent access record. No subscriptions, no renewals. This is yours.</p>
+      </div>
+
+      <div class="hero-right-next">
+        <p class="next-label">Your immediate next step</p>
+        <p class="next-title">Open the First 72 Hours Protocol™</p>
+        <p class="next-sub">Do not start with the Manual. Start with the Protocol. It was designed to activate the system in sequence — <strong>hour by hour, layer by layer.</strong></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROTOCOL / WHAT NOW -->
+<div class="protocol-section" id="protocol">
+  <div class="protocol-header">
+    <div class="ph-left">
+      <span class="sec-ref">§ 01</span>
+      <span class="sec-title">What Happens Now</span>
+    </div>
+    <span class="sec-ref">First 72 Hours — Activation Sequence</span>
+  </div>
+
+  <div class="protocol-inner">
+    <div class="protocol-intro">
+      <h2 class="protocol-h reveal">
+        The next step<br />is not more<br />
+        <em>reading.</em>
+      </h2>
+      <p class="protocol-body reveal d1">
+        The Operator Infrastructure System™ is a sequenced instrument. Each component is designed to be used in a specific order. Skipping the sequence is the most common way operators dilute the value of what they have just acquired.
+        <br /><br />
+        <strong>Follow the sequence. The system will do what it was built to do.</strong>
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num-wrap">
+          <div class="step-num">1</div>
+          <span class="step-time">Hour 0</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Run the <em>Infrastructure Diagnostic™</em></h3>
+          <p class="step-body">Before anything else. Score yourself honestly across all five layers — 0 to 3 per layer. <strong>Do not negotiate. Do not round up.</strong> Your score determines your entry point into the system. This is not an orientation — it is your first structural decision.</p>
+          <p class="step-law">"Score yourself honestly. This diagnostic is a structural instrument, not a self-assessment exercise." — Operator Infrastructure Map™</p>
+        </div>
+      </div>
+
+      <div class="step reveal d1">
+        <div class="step-num-wrap">
+          <div class="step-num">2</div>
+          <span class="step-time">Hour 1–72</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Execute the <em>First 72 Hours Protocol™</em></h3>
+          <p class="step-body">The Protocol translates your diagnostic results into a structured activation sequence. Hour by hour. Layer by layer. It tells you exactly what to build first, in what order, and why. <strong>This is the bridge between knowing where you are and building what comes next.</strong></p>
+          <p class="step-law">"The next step is not more theory. It is engineering." — Operator Infrastructure System™</p>
+        </div>
+      </div>
+
+      <div class="step reveal d2">
+        <div class="step-num-wrap">
+          <div class="step-num">3</div>
+          <span class="step-time">Week 1–4</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Work the <em>Strategic Manual</em></h3>
+          <p class="step-body">Eight chapters. One for each structural layer, plus context, methodology, and implementation depth. Work chapter by chapter — not all at once. <strong>Each chapter is designed to be applied, not just read.</strong> Use the Operator Working Documents alongside each chapter.</p>
+          <p class="step-law">"Understanding structure is not the same as applying it. Clarity without implementation changes nothing." — Operator Infrastructure System™</p>
+        </div>
+      </div>
+
+      <div class="step reveal d3">
+        <div class="step-num-wrap">
+          <div class="step-num">4</div>
+          <span class="step-time">Ongoing</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Deploy the <em>Operator Working Documents</em></h3>
+          <p class="step-body">Three calculation-driven worksheets. Time, skill, and financial capital allocated across all five infrastructure layers. These are not templates — they are operational instruments. <strong>Run them as live documents. Update them as the system matures.</strong></p>
+          <p class="step-law">"Capital must move by rule, not emotion." — Layer 02 Structural Law</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING STATEMENT -->
+<div class="closing">
+  <div class="closing-inner">
+    <span class="closing-side">Operator Infrastructure<br />System™<br />Patrick Systems<br />Est. 2025</span>
+    <blockquote class="closing-q reveal">
+      "Real operators don't need<br />
+      more motivation.<br />
+      They need <strong>infrastructure.</strong><br />
+      <br />
+      You just built the foundation<br />
+      for <strong>yours.</strong>"
+    </blockquote>
+    <span class="closing-side" style="text-align:right;">Digital Income<br />Infrastructure<br />patricksystems.com<br />© 2026</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-brand">Patrick Systems</span>
+    <div class="footer-links">
+      <a href="https://patricksystems.com">patricksystems.com</a>
+      <a href="https://patricksystems.com#model">The Model</a>
+      <a href="https://patricksystems.com#about">About</a>
+    </div>
+    <span class="footer-copy">© 2026 Patrick Systems — All rights reserved</span>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.06 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
