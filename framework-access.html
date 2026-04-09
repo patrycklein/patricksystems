@@ -348,6 +348,33 @@
     .footer-links a:hover { color: var(--white); }
     .footer-copy { font-size: 10px; color: var(--dimmer); letter-spacing: 0.08em; }
 
+
+    /* ─── FRAMEWORK-ACCESS EMAIL FORM ─── */
+    .fa-email-field {
+      width: 100%; background: var(--bg-3);
+      border: 1px solid var(--rule-2); outline: none;
+      padding: 14px 16px; margin-bottom: 10px;
+      font-family: var(--sans); font-size: 13px; color: var(--white);
+      transition: border-color 0.2s;
+    }
+    .fa-email-field:focus { border-color: var(--accent); background: var(--bg-4); }
+    .fa-email-field::placeholder { color: var(--dimmer); }
+    .fa-submit-btn {
+      width: 100%; background: var(--white); color: var(--ink);
+      border: none; cursor: pointer;
+      font-family: var(--sans); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 16px; transition: background 0.2s;
+    }
+    .fa-submit-btn:hover { background: var(--paper); }
+    .fa-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fa-note { font-size: 11px; color: var(--dimmer); margin-top: 12px; letter-spacing: 0.04em; }
+    .fa-success { display: none; padding: 24px 0; }
+    .fa-success-title {
+      font-family: var(--serif); font-size: 19px; font-weight: 500;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .fa-success-text { font-size: 13px; color: var(--dim); line-height: 1.65; }
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -406,7 +433,7 @@
     <span class="bar-label">Operator Infrastructure Map™ — Framework Access</span>
     <div class="bar-status">
       <span class="status-dot"></span>
-      <span class="status-text">Ready for download</span>
+      <span class="status-text">Enter your email to access</span>
     </div>
   </div>
 
@@ -416,12 +443,12 @@
       <div>
         <div class="hero-kicker">
           <span class="kicker-dash"></span>
-          <span class="kicker-text">Your framework is ready</span>
+          <span class="kicker-text">One step to access</span>
         </div>
         <h1>
           The Map<br />
-          is in your<br />
-          <em>hands.</em>
+          is one email<br />
+          <em>away.</em>
         </h1>
       </div>
       <div class="hero-bottom">
@@ -431,12 +458,18 @@
           <strong>Treat it as an instrument,<br />not a reading exercise.</strong>
         </p>
         <div>
-          <p class="dl-tag">Free download — Operator Infrastructure Map™</p>
-          <p class="dl-name">Framework Paper — Version 2.0</p>
-          <p class="dl-meta">Patrick Systems · April 2026 · 12 pages</p>
-          <a href="/OPERATOR_INFRASTRUCTURE_MAP_V2_2.pdf" class="btn-download" download>
-            Download the Framework PDF
-          </a>
+          <p class="dl-tag">Free — No credit card. No obligation.</p>
+          <p class="dl-name">Operator Infrastructure Map™</p>
+          <p class="dl-meta">Framework Paper · Version 2.0 · Patrick Systems</p>
+          <div id="fa-form">
+            <input type="email" class="fa-email-field" id="fa-email" placeholder="Your email address" />
+            <button class="fa-submit-btn" id="fa-btn" onclick="faSubmit()">Send me the Framework</button>
+            <p class="fa-note">Delivered instantly. No spam. Unsubscribe anytime.</p>
+          </div>
+          <div class="fa-success" id="fa-success">
+            <p class="fa-success-title">Check your inbox.</p>
+            <p class="fa-success-text">The Operator Infrastructure Map™ is on its way. If you score 10 or above on the diagnostic, the system is your next step.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -579,6 +612,42 @@
     { threshold: 0.06 }
   );
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Framework-access email form
+  async function faSubmit() {
+    const input = document.getElementById('fa-email');
+    const btn   = document.getElementById('fa-btn');
+    const email = input.value.trim();
+
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = '#c0392b';
+      input.focus();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      await fetch('https://hook.eu1.make.com/3lafyr7hmy4owwfcd693u1rn3t9ewxpa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'patricksystems.com/framework-access', timestamp: new Date().toISOString() })
+      });
+      document.getElementById('fa-form').style.display    = 'none';
+      document.getElementById('fa-success').style.display = 'block';
+    } catch(err) {
+      btn.disabled = false;
+      btn.textContent = 'Send me the Framework';
+      btn.style.background = '#c0392b';
+      setTimeout(() => btn.style.background = '', 2000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('fa-email');
+    if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') faSubmit(); });
+  });
 </script>
 
 </body>
